@@ -134,34 +134,16 @@
         <p>主流 AI 编码工具与 Agent 开箱即用。</p>
       </div>
       <div class="logo-carousel">
-        <button class="carousel-btn carousel-prev" onclick="scrollCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
         <div class="carousel-track">
-          <div class="logo-item">
-            <img src="https://cdn.simpleicons.org/anthropic" alt="Claude Code" class="logo-img">
-          </div>
-          <div class="logo-item">
-            <img src="https://cdn.simpleicons.org/cursor" alt="Cursor" class="logo-img">
-          </div>
-          <div class="logo-item">
-            <img src="https://cdn.simpleicons.org/windsurf" alt="Windsurf" class="logo-img">
-          </div>
-          <div class="logo-item">
-            <img src="https://cdn.simpleicons.org/cline" alt="Cline" class="logo-img">
-          </div>
-          <div class="logo-item">
-            <div class="logo-text">OpenCode</div>
-          </div>
-          <div class="logo-item">
-            <div class="logo-text">Codex</div>
-          </div>
-          <div class="logo-item">
-            <div class="logo-text">Kilo Code</div>
-          </div>
-          <div class="logo-item">
-            <div class="logo-text">OpenClaw</div>
-          </div>
+          <div class="logo-item"><div class="logo-text">Claude Code</div></div>
+          <div class="logo-item"><div class="logo-text">Cursor</div></div>
+          <div class="logo-item"><div class="logo-text">Windsurf</div></div>
+          <div class="logo-item"><div class="logo-text">Cline</div></div>
+          <div class="logo-item"><div class="logo-text">OpenCode</div></div>
+          <div class="logo-item"><div class="logo-text">Codex</div></div>
+          <div class="logo-item"><div class="logo-text">Kilo Code</div></div>
+          <div class="logo-item"><div class="logo-text">OpenClaw</div></div>
         </div>
-        <button class="carousel-btn carousel-next" onclick="scrollCarousel(1)"><i class="fas fa-chevron-right"></i></button>
       </div>
     </div>
   </section>
@@ -196,30 +178,24 @@
         behavior: 'smooth'
       });
     }
-    // Auto scroll carousel
-    let autoScrollInterval;
-    function startAutoScroll() {
-      autoScrollInterval = setInterval(() => {
-        const track = document.querySelector('.carousel-track');
-        const maxScroll = track.scrollWidth - track.clientWidth;
-        if (track.scrollLeft >= maxScroll) {
-          track.scrollTo({ left: 0, behavior: 'smooth' });
-        } else {
-          scrollCarousel(1);
-        }
-      }, 3000);
+    // Infinite scroll carousel
+    const track = document.querySelector('.carousel-track');
+    const items = track.innerHTML;
+    track.innerHTML = items + items;
+    let scrollPos = 0;
+    let speed = 0.5;
+    let animId;
+    function autoScroll() {
+      scrollPos += speed;
+      if (scrollPos >= track.scrollWidth / 2) scrollPos = 0;
+      track.scrollLeft = scrollPos;
+      animId = requestAnimationFrame(autoScroll);
     }
-    function stopAutoScroll() {
-      clearInterval(autoScrollInterval);
-    }
-    // Start auto scroll when page loads
-    document.addEventListener('DOMContentLoaded', startAutoScroll);
-    // Pause on hover
-    const carousel = document.querySelector('.logo-carousel');
-    if (carousel) {
-      carousel.addEventListener('mouseenter', stopAutoScroll);
-      carousel.addEventListener('mouseleave', startAutoScroll);
-    }
+    document.addEventListener('DOMContentLoaded', () => {
+      autoScroll();
+    });
+    track.addEventListener('mouseenter', () => cancelAnimationFrame(animId));
+    track.addEventListener('mouseleave', () => autoScroll());
     // Rotating text
     const rotatingTexts = ['全平台', '对话', '图像', '视频', '语音', '搜索', '文档解析'];
     let textIndex = 0;
