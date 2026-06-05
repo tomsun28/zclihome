@@ -106,7 +106,7 @@ nav {
   display: inline-block;
   font-size: 13px;
   color: var(--primary);
-  background: #eef2ff;
+  background: color-mix(in srgb, var(--primary) 8%, #fff);
   padding: 5px 14px;
   border-radius: 100px;
   margin-bottom: 28px;
@@ -126,7 +126,7 @@ nav {
   position: relative;
   min-width: 120px;
   text-align: left;
-  background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -265,9 +265,9 @@ nav {
   height: 11px;
   border-radius: 50%;
 }
-.terminal-bar span:nth-child(1) { background: #ff5f56; }
-.terminal-bar span:nth-child(2) { background: #ffbd2e; }
-.terminal-bar span:nth-child(3) { background: #27c93f; }
+.terminal-bar span:nth-child(1) { background: var(--primary); opacity: 0.5; }
+.terminal-bar span:nth-child(2) { background: var(--primary); opacity: 0.7; }
+.terminal-bar span:nth-child(3) { background: var(--primary); }
 
 .terminal-body {
   padding: 20px 22px;
@@ -277,11 +277,11 @@ nav {
   color: #e4e4e7;
 }
 
-.terminal-body .c { color: #6b7280; }
-.terminal-body .g { color: #34d399; }
-.terminal-body .b { color: #818cf8; }
-.terminal-body .y { color: #fbbf24; }
-.terminal-body .s { color: #38bdf8; }
+.terminal-body .c { color: var(--text-muted); }
+.terminal-body .g { color: var(--primary); }
+.terminal-body .b { color: var(--primary-hover); }
+.terminal-body .y { color: var(--primary); opacity: 0.7; }
+.terminal-body .s { color: var(--primary); opacity: 0.85; }
 
 /* Section */
 section { padding: 80px 0; }
@@ -328,7 +328,7 @@ section { padding: 80px 0; }
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: #eef2ff;
+  background: color-mix(in srgb, var(--primary) 8%, #fff);
   color: var(--primary);
   display: flex;
   align-items: center;
@@ -629,7 +629,7 @@ section { padding: 80px 0; }
 
 .cta-card p {
   font-size: 17px;
-  color: #a1a1aa;
+  color: var(--text-muted);
   margin-bottom: 32px;
 }
 
