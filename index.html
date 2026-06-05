@@ -36,14 +36,25 @@
         </div>
 
         <div class="tab-panel active" id="agent">
-          <div class="step">
-            <div class="step-body">
-              <p>直接把下面这句话发给 Claude Code、Codex 等 AI Agent，它会自动完成安装与配置。</p>
-              <div class="prompt-box">
-                <code>阅读 https://docs.bigmodel.cn/cli/install.md 文档，帮我安装并配置 CLI 与 Skill。</code>
-                <button class="copy-btn" onclick="copyText(this)"><i class="fas fa-copy"></i></button>
+          <div class="steps">
+            <div class="step">
+              <div class="step-body">
+                <p>直接把下面这句话发给 Claude Code、Codex 等 AI Agent，它会自动完成安装与配置。</p>
+                <div class="prompt-box">
+                  <code>阅读 https://docs.bigmodel.cn/cli/install.md 文档，帮我安装并配置 CLI 与 Skill。</code>
+                  <button class="copy-btn" onclick="copyText(this)"><i class="fas fa-copy"></i></button>
+                </div>
+                <p>Agent 会读取安装文档，检查 Node.js 环境，执行安装命令并引导你配置 API Key。</p>
               </div>
-              <p>Agent 会读取安装文档，检查 Node.js 环境，执行安装命令并引导你配置 API Key。</p>
+            </div>
+            <div class="step">
+              <div class="step-body">
+                <p>告诉 Agent 你想要什么，让它自己调用 CLI 的能力。</p>
+                <div class="prompt-box">
+                  <code>我想要 "卡通的爱因斯坦"</code>
+                  <button class="copy-btn" onclick="copyText(this)"><i class="fas fa-copy"></i></button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
