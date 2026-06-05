@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <title>Z.ai CLI | 一行命令调用 Z.ai 全模态 AI 能力</title>
+  <meta name="description" content="Z.ai CLI 是面向 AI Agent 的命令行工具，一行命令调用对话、图像、视频、语音、搜索、文档解析等全模态 AI 能力。">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <img src="data:image/png;base64,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" alt="ZHIPU·AI" class="site-logo">
+      </a>
+      <div class="nav-links">
+        <a href="https://bigmodel.cn/console" target="_blank" class="nav-link-sm">控制台</a>
+        <a href="https://bigmodel.cn/apikey/platform" target="_blank" class="nav-link-sm">API Key</a>
+        <a href="https://github.com/zai-org/zai-cli" target="_blank" class="nav-link-sm"><i class="fab fa-github"></i> GitHub</a>
+      </div>
+      <button class="menu-btn" onclick="document.querySelector('.nav-links').style.display='flex'"><i class="fas fa-bars"></i></button>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container">
+      <span class="tag">为 AI Agent 设计</span>
+      <h1>一行命令<br>调用 Mass <span class="rotating-text">全平台</span> 能力</h1>
+      <p>对话、图像、视频、语音、搜索、文档解析 —— 零交互、结构化输出。</p>
+      <div class="quick-start">
+        <div class="tabs">
+          <button class="tab active" onclick="switchTab(event,'agent')"><i class="fas fa-robot"></i> 让 Agent 安装</button>
+          <button class="tab" onclick="switchTab(event,'manual')"><i class="fas fa-user"></i> 手动安装</button>
+        </div>
+
+        <div class="tab-panel active" id="agent">
+          <div class="step">
+            <div class="step-body">
+              <p>直接把下面这句话发给 Claude Code、Codex 等 AI Agent，它会自动完成安装与配置。</p>
+              <div class="prompt-box">
+                <code>阅读 https://docs.bigmodel.cn/cli/install.md 文档，帮我安装并配置 CLI 与 Skill。</code>
+                <button class="copy-btn" onclick="copyText(this)"><i class="fas fa-copy"></i></button>
+              </div>
+              <p>Agent 会读取安装文档，检查 Node.js 环境，执行安装命令并引导你配置 API Key。</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-panel" id="manual">
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-body">
+                <h3>安装 CLI</h3>
+                <p>需要 Node.js >= 18 与 npm。</p>
+                <code>npm install -g @z_ai/zai-cli</code>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-body">
+                <h3>配置 API Key</h3>
+                <p>从 Z.ai 控制台获取 Key，选择对应区域。</p>
+                <code>zai-cli auth set "your-api-key" --region china</code>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-body">
+                <h3>开始调用</h3>
+                <p>运行第一条命令，验证安装成功。</p>
+                <code>zai-cli chat "Hello, Z.ai!"</code>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="features">
+    <div class="container">
+      <div class="section-head">
+        <h2>全平台能力，一个命令行</h2>
+        <p>所有命令默认输出 JSON，可直接被 Agent 解析与链式调用。</p>
+      </div>
+      <div class="features">
+        <div class="feature">
+          <div class="icon"><i class="fas fa-comments"></i></div>
+          <h3>智能对话</h3>
+          <p>GLM 模型文本与多模态对话，支持流式输出。</p>
+          <code>zai-cli chat</code>
+        </div>
+        <div class="feature">
+          <div class="icon"><i class="fas fa-image"></i></div>
+          <h3>图像生成</h3>
+          <p>文本生成高质量图像，同步返回结果。</p>
+          <code>zai-cli image-gen</code>
+        </div>
+        <div class="feature">
+          <div class="icon"><i class="fas fa-video"></i></div>
+          <h3>视频生成</h3>
+          <p>文生视频 / 图生视频，支持异步轮询。</p>
+          <code>zai-cli video-gen</code>
+        </div>
+        <div class="feature">
+          <div class="icon"><i class="fas fa-microphone"></i></div>
+          <h3>语音转录</h3>
+          <p>音视频转文本，支持多语言识别。</p>
+          <code>zai-cli audio-transcribe</code>
+        </div>
+        <div class="feature">
+          <div class="icon"><i class="fas fa-magnifying-glass"></i></div>
+          <h3>联网搜索</h3>
+          <p>实时搜索网络内容，获取最新信息。</p>
+          <code>zai-cli web-search</code>
+        </div>
+        <div class="feature">
+          <div class="icon"><i class="fas fa-file-lines"></i></div>
+          <h3>文档解析</h3>
+          <p>OCR 解析 PDF、图片，提取结构化文本。</p>
+          <code>zai-cli doc-parse</code>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="integrations" class="integrations">
+    <div class="container">
+      <div class="section-head">
+        <h2>与你的 AI Agent 无缝集成</h2>
+        <p>主流 AI 编码工具与 Agent 开箱即用。</p>
+      </div>
+      <div class="logo-carousel">
+        <button class="carousel-btn carousel-prev" onclick="scrollCarousel(-1)"><i class="fas fa-chevron-left"></i></button>
+        <div class="carousel-track">
+          <div class="logo-item">
+            <img src="https://cdn.simpleicons.org/anthropic" alt="Claude Code" class="logo-img">
+          </div>
+          <div class="logo-item">
+            <img src="https://cdn.simpleicons.org/cursor" alt="Cursor" class="logo-img">
+          </div>
+          <div class="logo-item">
+            <img src="https://cdn.simpleicons.org/windsurf" alt="Windsurf" class="logo-img">
+          </div>
+          <div class="logo-item">
+            <img src="https://cdn.simpleicons.org/cline" alt="Cline" class="logo-img">
+          </div>
+          <div class="logo-item">
+            <div class="logo-text">OpenCode</div>
+          </div>
+          <div class="logo-item">
+            <div class="logo-text">Codex</div>
+          </div>
+          <div class="logo-item">
+            <div class="logo-text">Kilo Code</div>
+          </div>
+          <div class="logo-item">
+            <div class="logo-text">OpenClaw</div>
+          </div>
+        </div>
+        <button class="carousel-btn carousel-next" onclick="scrollCarousel(1)"><i class="fas fa-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="container">
+      <div class="cta-card">
+        <h2>现在就开始构建</h2>
+        <a href="https://github.com/zai-org/zai-cli" target="_blank" class="btn btn-primary"><i class="fab fa-github"></i> 在 GitHub 上查看</a>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function switchTab(e, id) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      e.currentTarget.classList.add('active');
+      document.getElementById(id).classList.add('active');
+    }
+    function copyText(btn) {
+      const text = btn.previousElementSibling.innerText;
+      navigator.clipboard.writeText(text);
+      btn.innerHTML = '<i class="fas fa-check"></i>';
+      setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i>', 2000);
+    }
+    function scrollCarousel(direction) {
+      const track = document.querySelector('.carousel-track');
+      const scrollAmount = 300;
+      track.scrollBy({
+        left: direction * scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+    // Auto scroll carousel
+    let autoScrollInterval;
+    function startAutoScroll() {
+      autoScrollInterval = setInterval(() => {
+        const track = document.querySelector('.carousel-track');
+        const maxScroll = track.scrollWidth - track.clientWidth;
+        if (track.scrollLeft >= maxScroll) {
+          track.scrollTo({ left: 0, behavior: 'smooth' });
+        } else {
+          scrollCarousel(1);
+        }
+      }, 3000);
+    }
+    function stopAutoScroll() {
+      clearInterval(autoScrollInterval);
+    }
+    // Start auto scroll when page loads
+    document.addEventListener('DOMContentLoaded', startAutoScroll);
+    // Pause on hover
+    const carousel = document.querySelector('.logo-carousel');
+    if (carousel) {
+      carousel.addEventListener('mouseenter', stopAutoScroll);
+      carousel.addEventListener('mouseleave', startAutoScroll);
+    }
+    // Rotating text
+    const rotatingTexts = ['全平台', '对话', '图像', '视频', '语音', '搜索', '文档解析'];
+    let textIndex = 0;
+    function rotateText() {
+      const element = document.querySelector('.rotating-text');
+      if (element) {
+        element.style.opacity = '0';
+        element.style.transition = 'opacity 0.3s ease';
+        setTimeout(() => {
+          textIndex = (textIndex + 1) % rotatingTexts.length;
+          element.textContent = rotatingTexts[textIndex];
+          element.style.opacity = '1';
+        }, 300);
+      }
+    }
+    setInterval(rotateText, 2000);
+  </script>
+</body>
+</html>
