@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>macOS Desktop | Z.ai CLI</title>
+  <link rel="stylesheet" href="../assets/css/macos-desktop.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Top Menu Bar -->
+  <div class="menu-bar">
+    <div class="menu-left">
+      <div class="apple-logo">
+        <i class="fab fa-apple"></i>
+      </div>
+      <div class="app-name">Finder</div>
+      <div class="menu-items">
+        <span>文件</span>
+        <span>编辑</span>
+        <span>显示</span>
+        <span>前往</span>
+        <span>窗口</span>
+        <span>帮助</span>
+      </div>
+    </div>
+    <div class="menu-right">
+      <div class="tray-icons">
+        <i class="fas fa-battery-full"></i>
+        <i class="fas fa-wifi"></i>
+        <i class="fas fa-search"></i>
+        <i class="fas fa-control-play"></i>
+      </div>
+      <div class="date-time" id="dateTime">
+        周一 7 月 15 日 12:00
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Area -->
+  <div class="desktop" id="desktop">
+    <!-- Desktop Icons -->
+    <div class="desktop-icon" data-window="finder">
+      <div class="icon-container">
+        <i class="fas fa-folder icon-folder"></i>
+      </div>
+      <span class="icon-label">我的项目</span>
+    </div>
+    <div class="desktop-icon" data-window="terminal">
+      <div class="icon-container">
+        <i class="fas fa-terminal icon-terminal"></i>
+      </div>
+      <span class="icon-label">Terminal</span>
+    </div>
+    <div class="desktop-icon" data-window="safari">
+      <div class="icon-container">
+        <i class="fab fa-safari icon-safari"></i>
+      </div>
+      <span class="icon-label">Safari</span>
+    </div>
+    <div class="desktop-icon" data-window="notes">
+      <div class="icon-container">
+        <i class="fas fa-sticky-note icon-notes"></i>
+      </div>
+      <span class="icon-label">备忘录</span>
+    </div>
+  </div>
+
+  <!-- Windows Container -->
+  <div class="windows-container" id="windowsContainer">
+    <!-- Finder Window -->
+    <div class="window" id="window-finder" style="display: none;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="control-btn close" data-action="close">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="control-btn minimize" data-action="minimize">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="control-btn maximize" data-action="maximize">
+            <i class="fas fa-square"></i>
+          </button>
+        </div>
+        <div class="window-title">Finder - 我的项目</div>
+        <div class="window-drag-area"></div>
+      </div>
+      <div class="window-content">
+        <div class="sidebar">
+          <div class="sidebar-item"><i class="fas fa-clock"></i> 最近使用</div>
+          <div class="sidebar-item"><i class="fas fa-cloud"></i> iCloud</div>
+          <div class="sidebar-item"><i class="fas fa-laptop"></i> 桌面</div>
+          <div class="sidebar-item"><i class="fas fa-file"></i> 文档</div>
+          <div class="sidebar-item"><i class="fas fa-download"></i> 下载</div>
+        </div>
+        <div class="main-content">
+          <div class="file-grid">
+            <div class="file-item"><i class="fas fa-folder file-icon"></i><span>project-zai</span></div>
+            <div class="file-item"><i class="fas fa-folder file-icon"></i><span>docs</span></div>
+            <div class="file-item"><i class="fas fa-image file-icon"></i><span>image.png</span></div>
+            <div class="file-item"><i class="fas fa-file-code file-icon"></i><span>index.js</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Terminal Window -->
+    <div class="window" id="window-terminal" style="display: none;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="control-btn close" data-action="close">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="control-btn minimize" data-action="minimize">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="control-btn maximize" data-action="maximize">
+            <i class="fas fa-square"></i>
+          </button>
+        </div>
+        <div class="window-title">Terminal</div>
+        <div class="window-drag-area"></div>
+      </div>
+      <div class="window-content terminal-content">
+        <div class="terminal-output">
+          <div>Last login: Mon Jul 15 12:00:00 on ttys000</div>
+          <div id="terminal-input-line">
+            <span class="prompt">user@macbook ~ %</span>
+            <input type="text" class="terminal-input" autofocus placeholder="输入命令...">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Safari Window -->
+    <div class="window" id="window-safari" style="display: none;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="control-btn close" data-action="close">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="control-btn minimize" data-action="minimize">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="control-btn maximize" data-action="maximize">
+            <i class="fas fa-square"></i>
+          </button>
+        </div>
+        <div class="window-title">Safari</div>
+        <div class="window-drag-area"></div>
+      </div>
+      <div class="window-content">
+        <div class="safari-toolbar">
+          <div class="nav-buttons">
+            <button class="nav-btn"><i class="fas fa-arrow-left"></i></button>
+            <button class="nav-btn"><i class="fas fa-arrow-right"></i></button>
+            <button class="nav-btn"><i class="fas fa-redo"></i></button>
+          </div>
+          <div class="address-bar">
+            <i class="fas fa-lock"></i>
+            <span>https://zai-cli.bigmodel.cn</span>
+          </div>
+        </div>
+        <div class="safari-content">
+          <h1>Z.ai CLI</h1>
+          <p>一行命令调用 Mass 全平台能力</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notes Window -->
+    <div class="window" id="window-notes" style="display: none;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="control-btn close" data-action="close">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="control-btn minimize" data-action="minimize">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="control-btn maximize" data-action="maximize">
+            <i class="fas fa-square"></i>
+          </button>
+        </div>
+        <div class="window-title">备忘录</div>
+        <div class="window-drag-area"></div>
+      </div>
+      <div class="window-content">
+        <textarea class="notes-textarea" placeholder="输入你的笔记..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dock -->
+  <div class="dock-container">
+    <div class="dock">
+      <div class="dock-item" data-launch="finder" title="Finder">
+        <i class="fas fa-folder dock-icon dock-finder"></i>
+      </div>
+      <div class="dock-item" data-launch="terminal" title="Terminal">
+        <i class="fas fa-terminal dock-icon dock-terminal"></i>
+      </div>
+      <div class="dock-item" data-launch="safari" title="Safari">
+        <i class="fab fa-safari dock-icon dock-safari"></i>
+      </div>
+      <div class="dock-item" data-launch="notes" title="备忘录">
+        <i class="fas fa-sticky-note dock-icon dock-notes"></i>
+      </div>
+      <div class="dock-separator"></div>
+      <div class="dock-item" title="废纸篓">
+        <i class="fas fa-trash dock-icon dock-trash"></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Minimized Windows Container -->
+  <div class="minimized-windows" id="minimizedWindows"></div>
+
+  <script src="../assets/js/macos-desktop.js"></script>
+</body>
+</html>
