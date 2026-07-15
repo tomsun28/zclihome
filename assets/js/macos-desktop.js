@@ -35,17 +35,80 @@ class MacDesktop {
 
   setupDock() {
     const dockItems = document.querySelectorAll('.dock-item[data-launch]');
+    
     dockItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const windowId = item.dataset.launch;
+      const windowId = item.dataset.launch;
+      
+      // Click to toggle window
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
         this.toggleWindow(windowId);
+        
+        // Add launching animation
+        item.classList.add('launching');
+        setTimeout(() => item.classList.remove('launching'), 500);
       });
       
-      // Add running indicator when window is open
+      // Hover effects
       item.addEventListener('mouseenter', () => {
         if (this.windows.has(windowId)) {
           item.classList.add('running');
         }
+      });
+      
+      item.addEventListener('mouseleave', () => {
+        if (!this.windows.has(windowId)) {
+          item.classList.remove('running');
+        }
+      });
+      
+      // Context menu for options
+      item.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        this.showDockContextMenu(e, windowId, item);
+      });
+    });
+    
+    // Global click to close context menu
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.dock-context-menu').forEach(menu => menu.remove());
+    });
+  }
+
+  showDockContextMenu(event, windowId, dockItem) {
+    // Remove existing menus
+    document.querySelectorAll('.dock-context-menu').forEach(menu => menu.remove());
+    
+    const rect = dockItem.getBoundingClientRect();
+    const menu = document.createElement('div');
+    menu.className = 'dock-context-menu';
+    menu.innerHTML = `
+      <div class="context-item" data-action="close">
+        <i class="fas fa-times"></i> 关闭窗口
+      </div>
+      <div class="context-item" data-action="minimize">
+        <i class="fas fa-minus"></i> 最小化
+      </div>
+    `;
+    
+    // Position menu above dock item
+    menu.style.position = 'absolute';
+    menu.style.left = `${rect.left}px`;
+    menu.style.top = `${rect.top - 120}px`;
+    menu.style.zIndex = '10001';
+    
+    document.body.appendChild(menu);
+    
+    // Handle menu actions
+    menu.querySelectorAll('.context-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const action = item.dataset.action;
+        if (action === 'close') {
+          this.closeWindow(windowId);
+        } else if (action === 'minimize') {
+          this.minimizeWindow(windowId);
+        }
+        menu.remove();
       });
     });
   }
@@ -119,13 +182,15 @@ class MacDesktop {
     
     windowEl.style.display = 'flex';
     
+    // Track this window
+    this.windows.set(windowId, windowEl);
+    
     // Remove from minimized if it was there
     const minimizedIndex = this.minimizedWindows.findIndex(w => w.id === windowId);
     if (minimizedIndex !== -1) {
       const minimizedWin = this.minimizedWindows[minimizedIndex];
       minimizedWin.element.remove();
       this.minimizedWindows.splice(minimizedIndex, 1);
-      this.updateDockIndicators();
     }
     
     // Reset position if needed
@@ -148,6 +213,7 @@ class MacDesktop {
     setTimeout(() => {
       windowEl.style.display = 'none';
       windowEl.classList.remove('window-closing');
+      this.windows.delete(windowId);
       this.updateDockIndicators();
     }, 200);
   }
@@ -172,10 +238,7 @@ class MacDesktop {
     this.minimizedWindows.push({ id: windowId, element: minimizedWin });
     
     // Update dock indicator
-    const dockItem = document.querySelector(`.dock-item[data-launch="${windowId}"]`);
-    if (dockItem) {
-      dockItem.classList.add('running-dark');
-    }
+    this.updateDockIndicators();
   }
 
   maximizeWindow(windowId) {
@@ -223,11 +286,18 @@ class MacDesktop {
     const windowEl = document.getElementById(`window-${windowId}`);
     if (!windowEl) return;
     
-    // Remove active class from all windows
+    // Remove active class from all windows and dock items
     document.querySelectorAll('.window').forEach(w => w.classList.remove('active'));
+    document.querySelectorAll('.dock-item').forEach(d => d.classList.remove('active-window'));
     
     // Add active class to focused window
     windowEl.classList.add('active');
+    
+    // Highlight corresponding dock item
+    const dockItem = document.querySelector(`.dock-item[data-launch="${windowId}"]`);
+    if (dockItem) {
+      dockItem.classList.add('active-window');
+    }
     
     // Update z-index
     this.zIndexCounter++;
@@ -237,12 +307,13 @@ class MacDesktop {
   }
 
   updateDockIndicators() {
-    const openWindows = Array.from(this.windows.keys());
     const dockItems = document.querySelectorAll('.dock-item[data-launch]');
     
     dockItems.forEach(item => {
-      const windowId = item.dataset.launch || item.dataset.window;
-      if (openWindows.includes(windowId)) {
+      const windowId = item.dataset.launch;
+      const hasWindow = this.windows.has(windowId);
+      
+      if (hasWindow) {
         item.classList.add('running');
       } else {
         item.classList.remove('running');

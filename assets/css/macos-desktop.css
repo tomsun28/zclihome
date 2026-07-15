@@ -410,23 +410,35 @@ body {
 .dock {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 18px;
   padding: 8px 12px;
   display: flex;
   align-items: flex-end;
   gap: 8px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+}
+
+.dock:hover {
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
 }
 
 .dock-item {
   cursor: pointer;
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   position: relative;
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
 }
 
 .dock-item:hover {
   transform: scale(1.3) translateY(-10px);
+  z-index: 100;
 }
 
 .dock-icon {
@@ -438,6 +450,24 @@ body {
   justify-content: center;
   border-radius: 12px;
   transition: all 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.dock-icon::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.dock-item:hover .dock-icon::before {
+  opacity: 1;
 }
 
 .dock-finder { background: linear-gradient(180deg, #ffeaa7 0%, #fdcb6e 100%); }
@@ -451,21 +481,94 @@ body {
   height: 40px;
   background: rgba(255, 255, 255, 0.3);
   margin: 0 4px;
+  border-radius: 1px;
+}
+
+/* Tooltip */
+.dock-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -40px;
+  left: 50%;
+  transform: translateX(-50%) scale(0);
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: all 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  z-index: 1000;
+}
+
+.dock-item:hover::after {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
 }
 
 /* Running Indicator */
 .dock-item.running::after {
   content: '';
   position: absolute;
-  bottom: -6px;
-  width: 4px;
-  height: 4px;
-  background: #333;
+  bottom: -8px;
+  width: 6px;
+  height: 6px;
+  background: currentColor;
   border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }
 
 .dock-item.running-dark::after {
-  background: #fff;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+/* Active Window Indicator (glow effect) */
+.dock-item.active-window .dock-icon {
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5), inset 0 0 20px rgba(0, 123, 255, 0.3);
+  transform: scale(1.1);
+  transition: all 0.3s ease;
+}
+
+.dock-item.active-window::before {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 123, 255, 0.8);
+  border-radius: 50%;
+  animation: activePulse 1.5s infinite;
+}
+
+@keyframes activePulse {
+  0%, 100% { 
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+  }
+  50% { 
+    opacity: 0.5;
+    transform: translateX(-50%) scale(1.5);
+  }
+}
+
+/* Dock Magnification Animation */
+@keyframes dockBounce {
+  0% { transform: scale(1) translateY(0); }
+  50% { transform: scale(1.4) translateY(-15px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+.dock-item.launching {
+  animation: dockBounce 0.5s ease-out;
 }
 
 /* Minimized Windows */
@@ -512,6 +615,39 @@ body {
 /* Active Window Border */
 .window.active {
   box-shadow: 0 15px 50px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+/* Dock Context Menu */
+.dock-context-menu {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 10px;
+  padding: 6px 0;
+  min-width: 140px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.context-item {
+  padding: 8px 16px;
+  font-size: 13px;
+  color: #333;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background-color 0.2s;
+}
+
+.context-item:hover {
+  background: rgba(0, 0, 0, 0.08);
+}
+
+.context-item i {
+  width: 16px;
+  text-align: center;
+  color: #666;
 }
 
 /* Scrollbar Styling */
