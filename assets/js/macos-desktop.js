@@ -237,12 +237,16 @@ class MacDesktop {
   }
 
   updateDockIndicators() {
-    const openWindows = Array.from(this.windows.keys());
+    // Check which windows are currently visible
+    const visibleWindows = Array.from(document.querySelectorAll('.window')).filter(
+      w => w.style.display !== 'none'
+    ).map(w => w.id.replace('window-', ''));
+    
     const dockItems = document.querySelectorAll('.dock-item[data-launch]');
     
     dockItems.forEach(item => {
       const windowId = item.dataset.launch || item.dataset.window;
-      if (openWindows.includes(windowId)) {
+      if (visibleWindows.includes(windowId)) {
         item.classList.add('running');
       } else {
         item.classList.remove('running');

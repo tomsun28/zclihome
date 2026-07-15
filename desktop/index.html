@@ -64,6 +64,12 @@
       </div>
       <span class="icon-label">备忘录</span>
     </div>
+    <div class="desktop-icon" data-window="about">
+      <div class="icon-container">
+        <i class="fas fa-info-circle icon-about"></i>
+      </div>
+      <span class="icon-label">关于本机</span>
+    </div>
   </div>
 
   <!-- Windows Container -->
@@ -189,6 +195,60 @@
         <textarea class="notes-textarea" placeholder="输入你的笔记..."></textarea>
       </div>
     </div>
+
+    <!-- About Window -->
+    <div class="window" id="window-about" style="display: none;">
+      <div class="window-titlebar">
+        <div class="window-controls">
+          <button class="control-btn close" data-action="close">
+            <i class="fas fa-times"></i>
+          </button>
+          <button class="control-btn minimize" data-action="minimize">
+            <i class="fas fa-minus"></i>
+          </button>
+          <button class="control-btn maximize" data-action="maximize">
+            <i class="fas fa-square"></i>
+          </button>
+        </div>
+        <div class="window-title">关于本机</div>
+        <div class="window-drag-area"></div>
+      </div>
+      <div class="window-content about-content">
+        <div class="about-header">
+          <div class="macos-logo">
+            <i class="fab fa-apple macos-icon-large"></i>
+          </div>
+          <h2 class="product-name">Z.ai CLI</h2>
+          <p class="version">版本 1.0.0</p>
+        </div>
+        <div class="about-info">
+          <div class="info-section">
+            <h3>简介</h3>
+            <p>Z.ai CLI 是一行命令调用 Mass 全平台能力的智能工具。</p>
+            <p>通过简单的命令行界面，开发者可以快速访问各种 AI 模型和服务。</p>
+          </div>
+          <div class="info-section">
+            <h3>功能特性</h3>
+            <ul>
+              <li>支持多种 AI 模型集成</li>
+              <li>跨平台兼容（Windows / macOS / Linux）</li>
+              <li>简洁的命令行界面</li>
+              <li>快速高效的执行能力</li>
+            </ul>
+          </div>
+          <div class="info-section">
+            <h3>技术栈</h3>
+            <p>前端：HTML / CSS / JavaScript (Vanilla)</p>
+            <p>图标：Font Awesome 6.4.0</p>
+            <p>设计灵感：macOS Big Sur / Monterey</p>
+          </div>
+        </div>
+        <div class="about-footer">
+          <p>&copy; 2024 Z.ai. All rights reserved.</p>
+          <p><a href="https://zai-cli.bigmodel.cn" target="_blank">zai-cli.bigmodel.cn</a></p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Dock -->
@@ -205,6 +265,10 @@
       </div>
       <div class="dock-item" data-launch="notes" title="备忘录">
         <i class="fas fa-sticky-note dock-icon dock-notes"></i>
+      </div>
+      <div class="dock-separator"></div>
+      <div class="dock-item" data-launch="about" title="关于本机">
+        <i class="fas fa-info-circle dock-icon dock-about"></i>
       </div>
       <div class="dock-separator"></div>
       <div class="dock-item" title="废纸篓">
